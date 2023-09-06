@@ -1,5 +1,8 @@
 name: CI
-on: push
+on:
+  push:
+    tags:
+      - "v*"
 
 env:
   PHP_VERSION: 8.2.10
@@ -30,7 +33,6 @@ jobs:
         id: create_release
         uses: shogo82148/actions-create-release@v1
         with:
-          make_latest: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Assets
@@ -40,4 +42,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: php-static-*.tar.gz;php-static-*.tar.gz.SHA256
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          overwrite: true
+          overwrite: false
