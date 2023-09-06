@@ -1,0 +1,43 @@
+name: CI
+on: push
+
+env:
+  PHP_VERSION: 8.2.10
+
+jobs:
+  build-php-static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Builder
+        uses: addnab/docker-run-action@v3
+        with:
+          image: ghcr.io/atrifat/builder-alpine:latest
+          options: -v ${{ github.workspace }}:/work -e PHP_VERSION=${{ env.PHP_VERSION }}
+          shell: bash
+          run: |
+            echo "Building PHP=$PHP_VERSION"
+            rm -rf /work/project
+            mkdir -p /work/project 
+            ln -s /work/project /project
+            cd /work
+            chmod +x build.sh
+            ./build.sh
+
+      - name: Create a Release
+        if: ${{ !env.ACT }}
+        id: create_release
+        uses: shogo82148/actions-create-release@v1
+        with:
+          make_latest: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Assets
+        if: ${{ !env.ACT }}
+        uses: shogo82148/actions-upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: php-static-*.tar.gz;php-static-*.tar.gz.SHA256
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          overwrite: true
