@@ -33,7 +33,7 @@ jobs:
         id: create_release
         uses: shogo82148/actions-create-release@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PERSONAL_TOKEN }}
           make_latest: true
 
       - name: Upload Assets
@@ -42,5 +42,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: php-static-*.tar.gz;php-static-*.tar.gz.SHA256
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PERSONAL_TOKEN }}
           overwrite: false
