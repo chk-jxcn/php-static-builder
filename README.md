@@ -1,5 +1,4 @@
 # php-static-builder
-
 PHP Static Binary Builder. Building PHP static binary for personal project and testing.
 
 **Please, do not use this for production.**
@@ -66,7 +65,6 @@ zlib
 ```
 
 ## Getting Started
-
 Clone repository
 
 ```
@@ -93,10 +91,8 @@ chmod +x build.sh
 PHP_VERSION=8.2.10 ./build.sh
 ```
 
-# License
-
+## License
 MIT
 
-# Author
-
+## Author
 Rif'at Ahdi Ramadhani (atrifat)
