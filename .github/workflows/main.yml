@@ -41,6 +41,15 @@ jobs:
         uses: shogo82148/actions-upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: php-static-*.tar.gz;php-static-*.tar.gz.SHA256
+          asset_path: php-static-${{ env.PHP_VERSION }}.tar.gz
           github_token: ${{ secrets.PERSONAL_TOKEN }}
-          overwrite: false
+          overwrite: true
+
+      - name: Upload Assets Checksum
+        if: ${{ !env.ACT }}
+        uses: shogo82148/actions-upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: php-static-${{ env.PHP_VERSION }}.tar.gz.SHA256
+          github_token: ${{ secrets.PERSONAL_TOKEN }}
+          overwrite: true
