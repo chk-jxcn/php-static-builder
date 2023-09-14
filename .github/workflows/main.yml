@@ -33,7 +33,7 @@ jobs:
         id: create_release
         uses: shogo82148/actions-create-release@v1
         with:
-          github_token: ${{ secrets.PERSONAL_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           make_latest: true
 
       - name: Upload Assets
@@ -42,7 +42,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: php-static-${{ env.PHP_VERSION }}.tar.gz
-          github_token: ${{ secrets.PERSONAL_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           overwrite: true
 
       - name: Upload Assets Checksum
@@ -51,5 +51,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: php-static-${{ env.PHP_VERSION }}.tar.gz.SHA256
-          github_token: ${{ secrets.PERSONAL_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           overwrite: true
