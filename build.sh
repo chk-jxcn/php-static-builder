@@ -127,6 +127,32 @@ build_libidn2() {
     # ldconfig
 }
 
+build_libsecp25k1() {
+    # build libsecp25k1
+    cd /project
+    git clone --branch v0.1.1 --depth 1 https://github.com/1ma/secp256k1-nostr-php
+
+    cd secp256k1-nostr-php
+    git submodule init
+    git submodule update
+
+    cd secp256k1
+
+    ./autogen.sh &&
+        ./configure \
+            --disable-benchmark \
+            --disable-ctime-tests \
+            --disable-examples \
+            --disable-exhaustive-tests \
+            --disable-shared \
+            --disable-tests \
+            --prefix=/usr \
+            --with-pic
+
+    make -j$(nproc)
+    make -j $(nproc) && make install
+}
+
 build_php() {
     cd /project
     wget https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz -O php-${PHP_VERSION}.tar.gz
@@ -167,6 +193,9 @@ build_php() {
     tar xf swoole-5.0.3.tgz
     mv swoole-5.0.3 ext/swoole
 
+    # add secp256k1_nostr extension
+    cp -rf /project/secp256k1-nostr-php/ext ext/secp256k1_nostr
+
     # rebuilding configuration
     ./buildconf --force
     #autoupdate
@@ -193,7 +222,7 @@ build_php() {
         --with-nghttp2-dir=/usr --enable-swoole --enable-cares \
         --enable-mysqlnd --enable-openssl --enable-sockets \
         --enable-brotli --enable-swoole-curl --enable-swoole-pgsql \
-        --with-external-pcre --with-ffi
+        --with-external-pcre --with-ffi --enable-secp256k1_nostr
 
     # add makefile additional command for static build
     printf "\n\n%s\n\n%s\n\n%s\n\n\n" \
@@ -305,11 +334,15 @@ echo "Building curl"
 build_curl
 echo "Building libidn2"
 build_libidn2
+echo "Building libsecp25k1"
+build_libsecp25k1
 
 # build php
 # Check env variable and set default if not exist
 if [[ -z "${PHP_VERSION}" ]]; then
     PHP_VERSION=8.2.10
+else
+    PHP_VERSION="${PHP_VERSION}"
 fi
 
 echo "Building PHP=${PHP_VERSION}"
