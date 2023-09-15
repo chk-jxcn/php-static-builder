@@ -214,7 +214,7 @@ build_php() {
         --with-webp --with-xsl --with-zip --with-zlib --with-openssl \
         --with-iconv --with-mysqli --enable-sysvmsg --enable-sysvsem \
         --enable-sysvshm --enable-calendar --enable-exif \
-        --enable-shmop --enable-opcache --enable-opcache-jit \
+        --enable-shmop --disable-opcache --disable-opcache-jit \
         --enable-filter --with-event-core --with-event-extra \
         --with-event-openssl --enable-event-sockets \
         --enable-igbinary --enable-redis --enable-redis-igbinary \
@@ -222,7 +222,7 @@ build_php() {
         --with-nghttp2-dir=/usr --enable-swoole --enable-cares \
         --enable-mysqlnd --enable-openssl --enable-sockets \
         --enable-brotli --enable-swoole-curl --enable-swoole-pgsql \
-        --with-external-pcre --with-ffi --enable-secp256k1_nostr
+        --with-external-pcre --enable-secp256k1_nostr
 
     # add makefile additional command for static build
     printf "\n\n%s\n\n%s\n\n%s\n\n\n" \
@@ -280,7 +280,7 @@ build_php() {
     make install-build
     make install-programs
     make install-headers
-    make install-modules -j $(nproc)
+    # make install-modules -j $(nproc) || true
     cp php.ini-production /etc/php/php.ini
 
     # make php-static distribution directory
