@@ -15,7 +15,6 @@ date
 dom
 event
 exif
-FFI
 fileinfo
 filter
 gd
@@ -41,6 +40,7 @@ random
 readline
 redis
 Reflection
+secp256k1_nostr
 session
 shmop
 SimpleXML
