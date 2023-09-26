@@ -33,10 +33,10 @@ build_bz2() {
 
 build_libwebp() {
     # build libwebp static
-    curl -L https://github.com/webmproject/libwebp/archive/refs/tags/v1.3.1.tar.gz -o libwebp-v1.3.1.tar.gz
-    tar xzf libwebp-v1.3.1.tar.gz
+    curl -L https://github.com/webmproject/libwebp/archive/refs/tags/v1.3.2.tar.gz -o libwebp-v1.3.2.tar.gz
+    tar xzf libwebp-v1.3.2.tar.gz
 
-    cd libwebp-1.3.1
+    cd libwebp-1.3.2
     ./autogen.sh
     ./configure CFLAGS="-fPIC -O2" --with-pic --enable-static --disable-shared --prefix=/usr
 
