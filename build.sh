@@ -340,7 +340,7 @@ build_libsecp25k1
 # build php
 # Check env variable and set default if not exist
 if [[ -z "${PHP_VERSION}" ]]; then
-    PHP_VERSION=8.2.10
+    PHP_VERSION=8.2.11
 else
     PHP_VERSION="${PHP_VERSION}"
 fi
