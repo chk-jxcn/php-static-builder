@@ -102,10 +102,10 @@ build_libzip() {
 build_curl() {
     # build curl
     cd /project
-    wget https://curl.se/download/curl-8.1.1.tar.gz
-    tar xf curl-8.1.1.tar.gz
+    wget https://curl.se/download/curl-8.4.0.tar.gz
+    tar xf curl-8.4.0.tar.gz
 
-    cd curl-8.1.1
+    cd curl-8.4.0
 
     ./configure --with-pic --disable-shared --enable-static CFLAGS="-fPIC -O2" --with-openssl --prefix=/usr
 
