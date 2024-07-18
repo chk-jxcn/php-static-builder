@@ -251,6 +251,13 @@ build_php() {
         '$(BUILD_STATIC_FPM)' |
         tee -a Makefile
 
+    # Add a new Makefile target to statically build the CGI SAPI.
+    printf "%s\n%s\n\t%s\n\n" \
+        'BUILD_STATIC_CGI = $(LIBTOOL) --mode=link $(CC) -export-dynamic -all-static $(CFLAGS_CLEAN) $(EXTRA_CFLAGS) $(EXTRA_LDFLAGS_PROGRAM) $(LDFLAGS) $(PHP_RPATHS) $(PHP_GLOBAL_OBJS:.lo=.o) $(PHP_BINARY_OBJS:.lo=.o) $(PHP_FASTCGI_OBJS:.lo=.o) $(PHP_CGI_OBJS:.lo=.o) $(EXTRA_LIBS)  $(ZEND_EXTRA_LIBS) $(STATIC_EXTRA_LIBS) -o $(SAPI_CGI_PATH)' \
+        'cgi-static: $(PHP_GLOBAL_OBJS) $(PHP_BINARY_OBJS) $(PHP_FASTCGI_OBJS) $(PHP_CGI_OBJS)' \
+        '$(BUILD_STATIC_CGI)' |
+        tee -a Makefile
+
     #make prepare-static-global -j $(nproc)
     #make prepare-static-binary -j $(nproc)
     #make prepare-static-cli -j $(nproc)
@@ -267,6 +274,10 @@ build_php() {
     # Compile FPM
     make fpm-static -j $(nproc)
     strip --strip-all ./sapi/fpm/php-fpm
+
+    # Compile CGI
+    make cgi-static -j $(nproc)
+    strip --strip-all ./sapi/cgi/php-cgi
 
     # Compress with UPX
     upx -9 ./sapi/cli/php
@@ -295,6 +306,7 @@ build_php() {
     # copy binary
     cp -rf sapi/cli/php php-static-${PHP_VERSION}/usr/bin
     cp -rf sapi/fpm/php-fpm php-static-${PHP_VERSION}/usr/sbin/php-fpm
+    cp -rf sapi/cgi/php-cgi php-static-${PHP_VERSION}/usr/sbin/php-cgi
     cp -rf php.ini-production php-static-${PHP_VERSION}/etc/php/php.ini
     cp -rf sapi/fpm/php-fpm.conf php-static-${PHP_VERSION}/etc/php/php-fpm.conf
     cp -rf sapi/fpm/www.conf php-static-${PHP_VERSION}/etc/php/php-fpm.d/www.conf.EXAMPLE
