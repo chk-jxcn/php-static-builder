@@ -204,7 +204,7 @@ build_php() {
         --sysconfdir=/etc/php --with-config-file-path=/etc/php/ \
         --with-config-file-scan-dir=/etc/php/conf.d/ \
         --disable-shared --enable-static --disable-zts \
-        --enable-posix --enable-pcntl --disable-cgi --disable-phpdbg \
+        --enable-posix --enable-pcntl --disable-phpdbg \
         --enable-short-tags --with-pear --enable-phar --enable-fpm \
         --without-apxs2 --enable-bcmath --enable-gd --enable-intl \
         --enable-mbstring --enable-soap --enable-sockets --with-bz2 \
