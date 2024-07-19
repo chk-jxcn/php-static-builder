@@ -214,7 +214,7 @@ build_php() {
         --with-webp --with-xsl --with-zip --with-zlib --with-openssl \
         --with-iconv --with-mysqli --enable-sysvmsg --enable-sysvsem \
         --enable-sysvshm --enable-calendar --enable-exif \
-        --enable-shmop  \
+        --enable-shmop --disable-opcache --disable-opcache-jit \
         --enable-filter --with-event-core --with-event-extra \
         --with-event-openssl --enable-event-sockets \
         --enable-igbinary --enable-redis --enable-redis-igbinary \
